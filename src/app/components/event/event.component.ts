@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'app-event',
@@ -7,8 +7,14 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 export class EventComponent {
   @Input() value: any;
   @Output() deleteEventInstanceEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() editEventInstanceEvent: EventEmitter<Event> = new EventEmitter<Event>();
 
   handleDeleteClick() {
-  this.deleteEventInstanceEvent.emit(this.value);
+    this.deleteEventInstanceEvent.emit(this.value);
+  }
+
+  handleEditClick() {
+    console.log("hi")
+    this.editEventInstanceEvent.emit(this.value);
   }
 }

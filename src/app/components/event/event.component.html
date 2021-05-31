@@ -1,12 +1,19 @@
 <div class="media mb-5">
-    <h3 class="h3-responsive font-weight-bold mr-3">{{ value.time }}</h3>
+  <div>
+    <h3 class="h3-responsive font-weight-bold mr-3">{{ value.time |  date:'shortTime' }}</h3>
+    <!-- <br> -->
+    <h3 class="h3-responsive font-weight-bold mr-3">{{ value.time |  customDate }}</h3>
+    
+  </div>
+
     <div class="media-body mb-3">
-      <mdb-badge (click)="handleDeleteClick()" danger="true" class="text-center float-right">-</mdb-badge>
+      <mdb-badge (click)="handleDeleteClick()" danger="true" class="text-center float-right mx-2">-</mdb-badge>
+      <i class="fas fa-pen float-right" (click)="handleEditClick()"></i>
       <h6 class="mt-0 font-weight-bold">{{ value.subject }}</h6>
       <hr class="hr-bold mb-0 my-2" />
-      <p class="mb-0" *ngIf="value.location">
+      <p class="mb-0" *ngIf="value.locationDesc">
         <mdb-icon fas icon="location-arrow"></mdb-icon>
-        {{ value.location }}
+        {{ value.locationDesc }}
       </p>
     </div>
   </div>

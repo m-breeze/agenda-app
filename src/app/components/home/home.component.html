@@ -1,0 +1,158 @@
+<div class="container">
+    <div class="row mt-5">
+      <div class="col-md-9">
+        <div *ngFor="let event of events">
+          <app-event [value]="event" (deleteEventInstanceEvent)="deleteEvent($event)" (editEventInstanceEvent)="editEventComplete($event)" (editEventInstanceEvent)="editEvent($event)"></app-event>
+        </div> 
+        <div class="text-center">
+          <a
+            type="button"
+            mdbBtn
+            color="info"
+            class="waves-effect mb-4"
+            (click)="addNewEvent()"
+            mdbWavesEffect
+            >Добавить событие
+          </a>
+        </div>   
+      </div>
+      <div class="col-md-3">
+        <h3 class="text-uppercase my-1">Расписание</h3>
+        <h6 class="my-3">
+          Похоже, Вы сегодня заняты. У Вас 
+          <b> {{ events.length }} событий </b> сегодня.
+        </h6>
+        <weather-widget></weather-widget>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal-->
+  <div
+    mdbModal
+    #frame="mdbModal"
+    class="modal fade top"
+    id="frameModalTop"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="myModalLabel"
+    aria-hidden="true"
+    style="overflow-y: auto"
+  >
+    <!--Dialog-->
+    <div class="modal-dialog modal-notify modal-info" role="document">
+      <!--Content-->
+      <div class="modal-content">
+        <!--Header-->
+        <div class="modal-header text-center">
+          <h4 class="modal-title white-text w-100 font-weight-bold py-2">
+            Создать событие
+          </h4>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+            (click)="frame.hide()"
+          >
+            <span aria-hidden="true" class="white-text">&times;</span>
+          </button>
+        </div>
+  
+        <!--Body-->
+        <div class="modal-body">
+          <div class="form-group">
+            <mdb-icon fas icon="clock" class="prefix"></mdb-icon>
+            <label for="time" class="ml-2">Время</label>
+            <input
+              type="datetime-local"
+              id="time"
+              class="form-control"
+              mdbInput
+              [formControl]="timeInput"
+            />
+          </div>
+        
+          <div class="form-group">
+            <mdb-icon fas icon="edit" class="prefix"></mdb-icon>
+            <label for="subject" class="ml-2">О чем речь</label>
+            <input
+              type="text"
+              id="subject"
+              class="form-control"
+              mdbInput
+              [formControl]="subjectInput"
+            />
+          </div>
+        
+          <div class="form-group mb-5">
+            <mdb-icon far icon="map" class="prefix"></mdb-icon>
+            <label for="location" class="ml-2">Место (не обязательно) </label>
+            <input
+              type="text"
+              id="locationDesc"
+              class="form-control mb-3"
+              mdbInput
+              [formControl]="locationInput">
+              <google-map
+              id="map"
+              height="300px"
+              width="100%"
+              [center]="center"
+              [zoom]="zoom"
+              (mapClick)="addMarker($event)"
+              >
+              <map-marker *ngFor="let markerPosition of markerPositions"
+                [position]="markerPosition"
+                [options]="markerOptions">
+              </map-marker>
+            </google-map>
+          </div>
+        
+          <div class="form-group">
+            <mdb-icon fas icon="sticky-note" class="prefix"></mdb-icon>
+            <label for="description" class="ml-2">Описание (не обязательно) </label>
+            <input
+              type="text"
+              id="description"
+              class="form-control"
+              mdbInput
+              [formControl]="descriptionInput"
+            />
+          </div>
+        </div>
+        <!--/.Body-->
+  
+        <!--Footer-->
+        <div *ngIf="isEdit" class="modal-footer justify-content-center">
+          <button
+            type="button"
+            mdbBtn
+            color="info"
+            class="waves-effect"
+            (click)="editEventComplete()"
+            mdbWavesEffect
+          >
+            Обновить
+          </button>
+        </div>
+        <div *ngIf="!isEdit" class="modal-footer justify-content-center">
+          <button
+            type="button"
+            mdbBtn
+            color="info"
+            class="waves-effect"
+            (click)="addNewEventComplete()"
+            mdbWavesEffect
+          >
+            Добавить
+          </button>
+        </div>
+        <!--Footer-->
+      </div>
+      <!--/.Content-->
+    </div>
+    <!--/.Dialog-->
+  </div>
+  <!--/.Modal -->
+  
